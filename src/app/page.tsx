@@ -1,5 +1,5 @@
-import Chart from "@/components/Chart";
-import Form from "@/components/Form";
+import Chart from "@/components/chart";
+import Form from "@/components/form";
 
 export default function Home() {
   return (

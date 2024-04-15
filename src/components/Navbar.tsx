@@ -1,18 +1,9 @@
+import style from "@/styles/navbar.module.css";
 export default function Navbar() {
     return (
-        <nav style={{
-            backgroundColor: "aliceblue",
-            color: "white",
-            padding: "1rem",
-            textAlign: "center",
-            height: "10vh"
-        }}>
+        <nav className={style.container}>
             <h1 style={{color: "black"}}>Navbar</h1>
-            <ul style={{
-                display: "flex",
-                justifyContent: "space-around",
-                listStyleType: "none",
-            }}>
+            <ul>
                 <li>
                     <a href="/">Home</a>
                 </li>

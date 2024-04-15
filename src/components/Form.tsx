@@ -1,11 +1,7 @@
+import style from "@/styles/form.module.css";
 export default function Form() {
     return (
-        <form style={{
-            backgroundColor: "lightgray",
-            padding: "1rem",
-            textAlign: "center",
-            height: "30%"
-        }}>
+        <form className={style.container}>
             <label>
                 Name:
                 <input type="text" name="name" />

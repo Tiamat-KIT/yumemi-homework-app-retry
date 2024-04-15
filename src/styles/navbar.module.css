@@ -1,0 +1,13 @@
+.container{
+    baclground-color: "aliceblue";
+    padding: "1rem";
+    text-align: "center";
+    height: "10vh";
+    color: "white";
+}
+
+.container ul {
+    display: "flex";
+    justify-content: "space-around";
+    list-style-type: "none";
+}
