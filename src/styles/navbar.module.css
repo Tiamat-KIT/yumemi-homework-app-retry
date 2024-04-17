@@ -1,13 +1,25 @@
 .container{
-    baclground-color: aliceblue;
+    background-color: #f8f9fa;
     padding: 1rem;
     text-align: center;
-    height: 10vh;
+    height: calc(2rem + 1.75vw);
     color: white;
 }
 
-.container ul {
+.container h1 {
+    font-size: calc(1rem + 1.5vw);
+    color: black;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/* .container ul {
     display: flex;
     justify-content: space-around;
     list-style-type: none;
-}
+} */
