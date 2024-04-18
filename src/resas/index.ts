@@ -4,10 +4,8 @@ import {
     PrefectureResponse
 } from "@/types/resas"
 
-export default function RESAS(
-    API_KEY: string,
-){
-    if(API_KEY === "" || API_KEY === undefined){
+export default function RESAS(){
+    if(process.env.RESAS_API_KEY === "" || process.env.RESAS_API_KEY === undefined){
         throw new Error("API_KEYが設定されていません")
     }
 
@@ -31,7 +29,7 @@ export default function RESAS(
         const fetchOptions: RequestInit = {
             method: "GET",
             headers: {
-                "X-API-KEY": API_KEY,
+                "X-API-KEY": process.env.RESAS_API_KEY as string,
                 "Content-Type": "application/json;charset=utf-8"
             }
         }
