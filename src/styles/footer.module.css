@@ -1,7 +1,29 @@
 .container {
-    background-color: black;
+    background-color: slategray;
     color: white;
     padding: 1rem;
     text-align: center;
     height: 10vh;
+}
+
+.title {
+    position: relative;
+    top: 85%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.85rem;
+}
+
+.flex-malti-list-container {
+    position: relative;
+    top: -97%;
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+}
+
+.flex-malti-list-container > div {
+    color: rgba(255, 255, 255, 0.4);
+    padding: 0.5rem;
 }
