@@ -1,7 +1,7 @@
 import Chart from "@/components/Chart";
 import Form from "@/components/Form";
 import RESAS from "@/resas";
-import { PrefectureResponse } from "@/types/resas";
+import { Prefecture, PrefectureResponse } from "@/types/resas";
 
 export default async function Home() {
   const Resas = RESAS()
@@ -11,7 +11,7 @@ export default async function Home() {
       height: "60vh",
     }}>
       <Chart />
-      <Form Prefectures={Prefectures.result} />
+      <Form Prefectures={Prefectures.result as Prefecture[]} />
     </main>
   );
 }
