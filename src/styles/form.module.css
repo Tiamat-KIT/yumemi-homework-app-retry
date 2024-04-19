@@ -5,3 +5,18 @@
     height: 30%;
 }
 
+.checkbox-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 5px;
+    border: 1px solid black;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.checkbox {
+    border-radius: 8px;
+    padding: 0.5px;
+    background-color: darkgray;
+}

@@ -45,7 +45,7 @@ export default function Form({ Prefectures }: { Prefectures: Prefecture[] }) {
   function CheckBox<T extends FieldValues>({ register, path, label }: CheckBoxProps<T>) {
     const LabelRef = useRef<HTMLLabelElement>(null)
     useEffect(() => {
-      const LabelBackgroundColor = watch(`SelectPrefectures.${label}`) ? "red" : "white"
+      const LabelBackgroundColor = watch(`SelectPrefectures.${label}`) ? "red" : "darkgray"
       if (LabelRef.current === null) {
         throw new Error("label要素のRefが正常に処理されていません")
       }
@@ -53,7 +53,7 @@ export default function Form({ Prefectures }: { Prefectures: Prefecture[] }) {
     }, [watch(`SelectPrefectures.${label}`)])
 
     return (
-      <label ref={LabelRef}>
+      <label ref={LabelRef} className={style["checkbox"]}>
         <input hidden type="checkbox" {...register(path)} />
         {label}
       </label>
@@ -67,7 +67,7 @@ export default function Form({ Prefectures }: { Prefectures: Prefecture[] }) {
         console.log(data)
       })}
     >
-      <div>
+      <div className={style["checkbox-container"]}>
         {PrefectureNames.map(prefName => {
           return <CheckBox key={prefName} register={register} path={`SelectPrefectures.${prefName}`} label={prefName} />
         })}
