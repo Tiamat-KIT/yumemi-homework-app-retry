@@ -1,18 +1,15 @@
 import Chart from "@/components/Chart"
 import Form from "@/components/Form"
+import RESAS from "@/resas"
 // import RESAS from "@/resas"
-import { Prefecture, /* PrefectureResponse */ } from "@/types/resas"
+import { PrefectureResponse} from "@/types/resas"
 
 
 export default async function Home() {
-  // const Resas = RESAS()
-  // const Prefectures = (await Resas({ name: "prefectures" })) as unknown as PrefectureResponse
-  const dummy: Prefecture[] = Array(6).map((num) => {
-    return {
-      prefCode: num,
-      prefName: `都道府県${num}`
-    }
-  })
+  const Resas = RESAS()
+  const Prefectures = (await Resas({ name: "prefectures" })) as PrefectureResponse
+
+
   return (
     <main
       style={{
@@ -20,7 +17,7 @@ export default async function Home() {
       }}
     >
       <Chart />
-      <Form Prefectures={/* Prefectures.result as Prefecture[] */dummy} />
+      <Form Prefectures={Prefectures.result} />
     </main>
   )
 }
