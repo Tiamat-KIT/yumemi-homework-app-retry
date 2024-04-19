@@ -43,15 +43,14 @@ export default function RESAS() {
         fetchUrls.map(url => {
           return fetch(url, fetchOptions).then(res => {
             if (res.ok) {
-              return res.json() as Promise<PrefectureResponse | PopulationResponse>
+              return res.json() as Promise<PopulationResponse>
             } else {
               throw new Error("APIの取得に失敗しました")
             }
           })
         })
       )
-  
-      return fetchDatus as PopulationResponse[]
+      return fetchDatus
     }
   }
 }
