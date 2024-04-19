@@ -64,7 +64,22 @@ export default function Form({ Prefectures }: { Prefectures: Prefecture[] }) {
     <form
       className={style.container}
       onSubmit={handleSubmit(async data => {
-        console.log(data)
+        const selectList:string[] = []
+        const selectListNumber: number[] = []
+        for(const property in data["SelectPrefectures"]){
+          if(data.SelectPrefectures[property]){
+            console.log(property)
+            selectList.push(property)
+          }
+        }
+
+        for(const pref of Prefectures){
+          if(pref.prefName === selectList[0]){
+            selectListNumber.push(pref.prefCode)
+            selectList.shift()
+          }
+        }
+
       })}
     >
       <div className={style["checkbox-container"]}>
