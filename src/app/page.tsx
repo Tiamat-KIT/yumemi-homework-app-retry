@@ -1,7 +1,12 @@
 import Chart from "@/components/Chart"
 import Form from "@/components/Form"
+import RESAS from "@/resas"
+import { Prefecture, PrefectureResponse } from "@/types/resas"
 
-export default function Home() {
+
+export default async function Home() {
+  const Resas = RESAS()
+  const Prefectures = (await Resas({ name: "prefectures" })) as unknown as PrefectureResponse
   return (
     <main
       style={{
@@ -9,7 +14,7 @@ export default function Home() {
       }}
     >
       <Chart />
-      <Form />
+      <Form Prefectures={Prefectures.result as Prefecture[]} />
     </main>
   )
 }
