@@ -3,11 +3,11 @@
  */
 
 export type PopulationResponse = {
-    message: string,
-    result: {
-        boundaryYear: number,
-        data: Population[]
-    }
+  message: string
+  result: {
+    boundaryYear: number
+    data: Population[]
+  }
 }
 
 /**
@@ -15,11 +15,11 @@ export type PopulationResponse = {
  */
 
 export type Population = {
-    label: string,
-    data: {
-        year: number,
-        value: number
-    }[]
+  label: string
+  data: {
+    year: number
+    value: number
+  }[]
 }
 
 /**
@@ -27,27 +27,29 @@ export type Population = {
  */
 
 export type PrefectureResponse = {
-    message: string,
-    result: {
-        prefCode: number,
-        prefName: string
-    }[]
+  message: string
+  result: {
+    prefCode: number
+    prefName: string
+  }[]
 }
 
 /**
  * @param 単一の都道府県の人口構成データの型定義
  */
 export type Prefecture = {
-    prefCode: number,
-    prefName: string,
+  prefCode: number
+  prefName: string
 }
 
 /**
  * @param APIのエンドポイントの名前
  */
-export type FetchDataSelect = {
-    name: "prefectures"
-} | {
-    name: "population",
-    prefCodes?: number[]
-}
+export type FetchDataSelect =
+  | {
+      name: "prefectures"
+    }
+  | {
+      name: "population"
+      prefCodes?: number[]
+    }
