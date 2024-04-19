@@ -1,17 +1,19 @@
-import Chart from "@/components/Chart";
-import Form from "@/components/Form";
-import RESAS from "@/resas";
-import { Prefecture, PrefectureResponse } from "@/types/resas";
+import Chart from "@/components/Chart"
+import Form from "@/components/Form"
+import RESAS from "@/resas"
+import { Prefecture, PrefectureResponse } from "@/types/resas"
 
 export default async function Home() {
   const Resas = RESAS()
-  const Prefectures = await Resas({name: "prefectures"}) as unknown as PrefectureResponse
+  const Prefectures = (await Resas({ name: "prefectures" })) as unknown as PrefectureResponse
   return (
-    <main style={{
-      height: "60vh",
-    }}>
+    <main
+      style={{
+        height: "60vh"
+      }}
+    >
       <Chart />
       <Form Prefectures={Prefectures.result as Prefecture[]} />
     </main>
-  );
+  )
 }
