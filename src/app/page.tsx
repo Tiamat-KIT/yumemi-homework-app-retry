@@ -1,11 +1,12 @@
 import Chart from "@/components/Chart"
-import Form from "@/components/Form"
-import RESAS from "@/resas"
-import { Prefecture, PrefectureResponse } from "@/types/resas"
+// import Form from "@/components/Form"
+import TestForm from "@/components/TestForm"
+// import RESAS from "@/resas"
+// import {  Prefecture, PrefectureResponse } from "@/types/resas"
 
 export default async function Home() {
-  const Resas = RESAS()
-  const Prefectures = (await Resas({ name: "prefectures" })) as unknown as PrefectureResponse
+  /* const Resas = RESAS()
+  const Prefectures = (await Resas({ name: "prefectures" })) as unknown as PrefectureResponse */
   return (
     <main
       style={{
@@ -13,7 +14,8 @@ export default async function Home() {
       }}
     >
       <Chart />
-      <Form Prefectures={Prefectures.result as Prefecture[]} />
+      {/* <Form Prefectures={Prefectures.result as Prefecture[]} /> */}
+      <TestForm />
     </main>
   )
 }
