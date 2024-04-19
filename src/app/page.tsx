@@ -3,6 +3,7 @@ import Form from "@/components/Form"
 import RESAS from "@/resas"
 import { Prefecture, PrefectureResponse } from "@/types/resas"
 
+
 export default async function Home() {
   const Resas = RESAS()
   const Prefectures = (await Resas({ name: "prefectures" })) as unknown as PrefectureResponse
