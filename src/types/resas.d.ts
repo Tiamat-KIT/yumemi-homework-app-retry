@@ -46,10 +46,10 @@ export type Prefecture = {
  * @param APIのエンドポイントの名前
  */
 export type FetchDataSelect =
-  | {
+  {
       name: "prefectures"
-    }
+  }
   | {
       name: "population"
-      prefCodes?: number[]
+      prefDatus?: Prefecture[]
     }
