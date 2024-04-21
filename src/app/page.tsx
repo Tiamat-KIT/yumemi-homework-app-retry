@@ -10,12 +10,10 @@ export default async function Home() {
   const Resas = RESAS()
   const Prefectures = (await Resas({ name: "prefectures" })) as unknown as PrefectureResponse
   return (
-    <main
-      style={{
-        height: "60vh"
-      }}
-    >
-      <PageStateProvider current={currentPageState<PrefState>(initialPrefState, path)}>
+    <main>
+      <PageStateProvider
+        current={currentPageState<PrefState>(initialPrefState,path)}
+        >
         <Chart />
         <Form Prefectures={Prefectures.result as Prefecture[]} />
       </PageStateProvider>
