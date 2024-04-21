@@ -53,3 +53,10 @@ export type FetchDataSelect =
       name: "population"
       prefDatus?: Prefecture[]
     }
+
+/**
+ * @param Chart表示用のデータ型定義
+ */
+export type ChartData = {
+  [x: string]: PopulationResponse;
+}[]

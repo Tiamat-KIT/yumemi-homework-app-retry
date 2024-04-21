@@ -6,4 +6,4 @@ export type PrefState = {
     pref: Prefecture[]
 }
 
-export const initialPrefCodes = {pref: []} as PrefState
+export const initialPrefState = {pref: []} as PrefState
