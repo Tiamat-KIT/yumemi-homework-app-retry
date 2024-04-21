@@ -1,5 +1,8 @@
+import {currentPageState} from "nrstate"
+import PageStateProvider from "nrstate-client/PageStateProvider"
 import Footer from "@/components/Footer"
 import Navbar from "@/components/Navbar"
+import { PrefState,initialPrefState,path } from "@/state/submit-prefcode"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -19,9 +22,12 @@ export default function RootLayout({
           height: "100vh"
         }}
       >
-        <Navbar />
-        {children}
-        <Footer />
+        <PageStateProvider
+          current={currentPageState<PrefState>(initialPrefState, path)}>
+          <Navbar />
+          {children}
+          <Footer />
+        </PageStateProvider>
       </body>
     </html>
   )
