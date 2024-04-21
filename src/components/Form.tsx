@@ -1,14 +1,8 @@
 "use client"
 import { useEffect, useRef } from "react"
-import {usePageState} from "nrstate-client"
-import {
-  Path,
-  useForm,
-  UseFormRegister,
-  FieldValues,
-  SubmitHandler
-} from "react-hook-form"
-import {path,PrefState} from "@/state/submit-prefcode"
+import { usePageState } from "nrstate-client"
+import { Path, useForm, UseFormRegister, FieldValues, SubmitHandler } from "react-hook-form"
+import { path, PrefState } from "@/state/submit-prefcode"
 import style from "@/styles/form.module.css"
 import { Prefecture } from "@/types/resas"
 
@@ -16,7 +10,7 @@ export default function Form({ Prefectures }: { Prefectures: Prefecture[] }) {
   const PrefectureNames = Prefectures.map(pref => pref.prefName)
   const ConstPrefectureNames = [...PrefectureNames] as const
 
-  const [,setPrefState] = usePageState<PrefState>()
+  const [, setPrefState] = usePageState<PrefState>()
   interface PrefectureSelectState {
     SelectPrefectures: {
       [key in (typeof ConstPrefectureNames)[number]]: boolean
@@ -63,21 +57,21 @@ export default function Form({ Prefectures }: { Prefectures: Prefecture[] }) {
     )
   }
 
-  const onSubmit: SubmitHandler<PrefectureSelectState>  = (data: PrefectureSelectState) => {
-    for(const property in data["SelectPrefectures"]){
-      if(data["SelectPrefectures"][property] === true){
-        setPrefState({
-          pref: [{prefCode: Prefectures.find(pref => pref.prefName === property)!.prefCode, prefName: property}]
-        },path)
+  const onSubmit: SubmitHandler<PrefectureSelectState> = (data: PrefectureSelectState) => {
+    for (const property in data["SelectPrefectures"]) {
+      if (data["SelectPrefectures"][property] === true) {
+        setPrefState(
+          {
+            pref: [{ prefCode: Prefectures.find(pref => pref.prefName === property)!.prefCode, prefName: property }]
+          },
+          path
+        )
       }
     }
   }
 
   return (
-    <form
-      className={style.container}
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <form className={style.container} onSubmit={handleSubmit(onSubmit)}>
       <div className={style["checkbox-container"]}>
         {PrefectureNames.map(prefName => {
           return <CheckBox key={prefName} register={register} path={`SelectPrefectures.${prefName}`} label={prefName} />

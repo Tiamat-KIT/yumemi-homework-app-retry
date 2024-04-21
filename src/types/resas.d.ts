@@ -46,9 +46,9 @@ export type Prefecture = {
  * @param APIのエンドポイントの名前
  */
 export type FetchDataSelect =
-  {
+  | {
       name: "prefectures"
-  }
+    }
   | {
       name: "population"
       prefDatus?: Prefecture[]
@@ -58,5 +58,5 @@ export type FetchDataSelect =
  * @param Chart表示用のデータ型定義
  */
 export type ChartData = {
-  [x: string]: PopulationResponse;
+  [x: string]: PopulationResponse
 }[]

@@ -1,18 +1,10 @@
 "use client"
 import { useState } from "react"
 import { getPageState } from "nrstate-client"
-import {
-  CartesianGrid,
-  Legend,
-  Line,
-  LineChart,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts"
+import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts"
 import { CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart"
 import RESAS from "@/resas"
-import { PrefState, initialPrefState,path } from "@/state/submit-prefcode"
+import { PrefState, initialPrefState, path } from "@/state/submit-prefcode"
 import style from "@/styles/chart.module.css"
 import { ChartData } from "@/types/resas"
 
@@ -21,13 +13,14 @@ export default function Chart() {
   const prefState = getPageState<PrefState>(
     {
       pref: initialPrefState.pref
-    },path
+    },
+    path
   )
   const ResasFetcher = RESAS()
   const FetchResult = ResasFetcher({
     name: "population",
     prefDatus: prefState.pref
-  }).then((res) => {
+  }).then(res => {
     setFetchState(res as ChartData)
   })
   console.log(FetchResult)

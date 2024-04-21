@@ -12,11 +12,10 @@ export default function RESAS() {
       throw new Error("都道府県データが指定されていません")
     }
 
-
     if (category.name === "prefectures") {
       fetchUrls.push("https://opendata.resas-portal.go.jp/api/v1/prefectures")
     } else if (category.name === "population") {
-      if(category.prefDatus === undefined) {
+      if (category.prefDatus === undefined) {
         throw new Error("都道府県データが指定されていません")
       }
       category.prefDatus.forEach(pref => {
@@ -34,22 +33,22 @@ export default function RESAS() {
       }
     }
 
-    if(fetchUrls.length === 1 && category.name === "prefectures"){
-      const FetchPrefectureResponse = await fetch(fetchUrls[0],fetchOptions)
-      
-      if(!(FetchPrefectureResponse.ok)){
+    if (fetchUrls.length === 1 && category.name === "prefectures") {
+      const FetchPrefectureResponse = await fetch(fetchUrls[0], fetchOptions)
+
+      if (!FetchPrefectureResponse.ok) {
         throw new Error("取得に失敗しました")
       }
 
-      return await FetchPrefectureResponse.json() as PrefectureResponse
+      return (await FetchPrefectureResponse.json()) as PrefectureResponse
     } else {
       const fetchDatus = await Promise.all(
-        fetchUrls.map((url,idx) => {
+        fetchUrls.map((url, idx) => {
           return fetch(url, fetchOptions).then(async res => {
             if (res.ok) {
-              if(category.name === "population") {
+              if (category.name === "population") {
                 return {
-                  [`${category.prefDatus![idx].prefName}`]: await res.json() as PopulationResponse
+                  [`${category.prefDatus![idx].prefName}`]: (await res.json()) as PopulationResponse
                 }
               }
             } else {
@@ -58,8 +57,8 @@ export default function RESAS() {
           })
         })
       )
-      fetchDatus.map((fetchDatum) => {
-        if(fetchDatum === undefined){
+      fetchDatus.map(fetchDatum => {
+        if (fetchDatum === undefined) {
           throw new Error("取得に失敗しました")
         }
       })

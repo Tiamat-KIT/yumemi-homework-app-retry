@@ -1,10 +1,10 @@
-import {currentPageState} from "nrstate"
+import { currentPageState } from "nrstate"
 import PageStateProvider from "nrstate-client/PageStateProvider"
 import Chart from "@/components/Chart"
 import Form from "@/components/Form"
 import RESAS from "@/resas"
-import {PrefState,initialPrefState,path} from "@/state/submit-prefcode"
-import {  Prefecture, PrefectureResponse } from "@/types/resas"
+import { PrefState, initialPrefState, path } from "@/state/submit-prefcode"
+import { Prefecture, PrefectureResponse } from "@/types/resas"
 
 export default async function Home() {
   const Resas = RESAS()
@@ -15,9 +15,7 @@ export default async function Home() {
         height: "60vh"
       }}
     >
-      <PageStateProvider
-        current={currentPageState<PrefState>(initialPrefState,path)}
-        >
+      <PageStateProvider current={currentPageState<PrefState>(initialPrefState, path)}>
         <Chart />
         <Form Prefectures={Prefectures.result as Prefecture[]} />
       </PageStateProvider>
