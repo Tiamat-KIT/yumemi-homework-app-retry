@@ -8,14 +8,18 @@ export default function RESAS() {
   return async function ResasFetch(category: FetchDataSelect) {
     const fetchUrls: string[] = []
     // 人口データが欲しいのに都道府県コードが指定されていない場合
-    if (category.name === "population" &&(category.prefDatus?.length !== 0 && category.prefDatus![0].prefCode === undefined)) {
-      throw new Error("都道府県コードが指定されていません")
+    if (category.name === "population" && category.prefDatus?.length === 0) {
+      throw new Error("都道府県データが指定されていません")
     }
+
 
     if (category.name === "prefectures") {
       fetchUrls.push("https://opendata.resas-portal.go.jp/api/v1/prefectures")
     } else if (category.name === "population") {
-      category.prefDatus!.forEach(pref => {
+      if(category.prefDatus === undefined) {
+        throw new Error("都道府県データが指定されていません")
+      }
+      category.prefDatus.forEach(pref => {
         fetchUrls.push(
           `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=${pref.prefCode}`
         )
