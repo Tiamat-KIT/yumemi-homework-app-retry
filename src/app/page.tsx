@@ -1,7 +1,7 @@
 
 "use client"
 import useSWR from "swr"
-import Form from "@/components/Form"
+// import Form from "@/components/Form"
 import { Prefecture } from "@/types/resas"
 
 export default function Home() {
