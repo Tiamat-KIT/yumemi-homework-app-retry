@@ -1,28 +1,55 @@
 /**
- * @param APIから取得できる人口構成のデータの型定義
+ * @param APIから返される人口構成データの型定義
  */
 
-export type PopulationResponseType = {
+export type PopulationResponse = {
   message: string
   result: {
     boundaryYear: number
-    data: {
-      label: string
-      data: {
-        year: number
-        value: number
-      }[]
-    }[]
+    data: Population[]
   }
 }
 
 /**
- * @param APIから取得できる都道府県一覧のデータの型定義
+ * @param 県ごとの人口構成データの型定義
  */
-export type PrefectureResponseType = {
+
+export type Population = {
+  label: string
+  data: {
+    year: number
+    value: number
+  }[]
+}
+
+/**
+ * @param APIから返される都道府県一覧データの型定義
+ */
+
+export type PrefectureResponse = {
   message: string
   result: {
     prefCode: number
     prefName: string
   }[]
 }
+
+/**
+ * @param 単一の都道府県の人口構成データの型定義
+ */
+export type Prefecture = {
+  prefCode: number
+  prefName: string
+}
+
+/**
+ * @param APIのエンドポイントの名前
+ */
+export type FetchDataSelect =
+  | {
+      name: "prefectures"
+    }
+  | {
+      name: "population"
+      prefDatus: Prefecture[]
+    }
