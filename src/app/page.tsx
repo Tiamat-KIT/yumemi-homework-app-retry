@@ -1,22 +1,25 @@
-import { currentPageState } from "nrstate"
-import PageStateProvider from "nrstate-client/PageStateProvider"
-import Chart from "@/components/Chart"
-import Form from "@/components/Form"
-import RESAS from "@/resas"
-import { PrefState, initialPrefState, path } from "@/state/submit-prefcode"
-import { Prefecture, PrefectureResponse } from "@/types/resas"
 
-export default async function Home() {
-  const Resas = RESAS()
-  const Prefectures = (await Resas({ name: "prefectures" })) as unknown as PrefectureResponse
+"use client"
+import useSWR from "swr"
+// import Form from "@/components/Form"
+import { Prefecture } from "@/types/resas"
+
+export default function Home() {
+  const {data: Prefectures,error}= useSWR("https://opendata.resas-portal.go.jp/api/v1/prefectures", (url) => fetch(url, {
+      method: "GET",
+      headers: {
+        "X-API-KEY": process.env.RESAS_API_KEY as string,
+        "Content-Type": "application/json;charset=utf-8"
+      }
+    }).then(res => res.json() as Promise<Prefecture[]>) 
+  )
+  if (error) throw error
+  if (!Prefectures) return console.log("Loading...")
+  console.log(Prefectures)
   return (
     <main>
-      <PageStateProvider
-        current={currentPageState<PrefState>(initialPrefState,path)}
-        >
-        <Chart />
-        <Form Prefectures={Prefectures.result as Prefecture[]} />
-      </PageStateProvider>
+        {/* <Chart /> */}
+        {/* <Form Prefectures={Prefectures}/> */}
     </main>
   )
 }
