@@ -1,12 +1,14 @@
 "use client"
 import { useEffect, useRef } from "react"
+import {usePageState} from "nrstate-client"
 import {
   Path,
   useForm,
-  // SubmitHandler,
   UseFormRegister,
-  FieldValues
+  FieldValues,
+  SubmitHandler
 } from "react-hook-form"
+import {path,prefCodes} from "@/state/submit-prefcode"
 import style from "@/styles/form.module.css"
 import { Prefecture } from "@/types/resas"
 
@@ -14,6 +16,7 @@ export default function Form({ Prefectures }: { Prefectures: Prefecture[] }) {
   const PrefectureNames = Prefectures.map(pref => pref.prefName)
   const ConstPrefectureNames = [...PrefectureNames] as const
 
+  const [prefCodeState, setPrefCodeState] = usePageState<prefCodes>()
   interface PrefectureSelectState {
     SelectPrefectures: {
       [key in (typeof ConstPrefectureNames)[number]]: boolean
@@ -60,27 +63,21 @@ export default function Form({ Prefectures }: { Prefectures: Prefecture[] }) {
     )
   }
 
+  const onSubmit: SubmitHandler<PrefectureSelectState>  = (data: PrefectureSelectState) => {
+    const PrefCodes = []
+    for(const property in data["SelectPrefectures"]){
+      if(data["SelectPrefectures"][property] === true){
+        PrefCodes.push(Prefectures.find(pref => pref.prefName === property)?.prefCode)
+      }
+    }
+    setPrefCodeState({prefCodes: PrefCodes as number[]},path)
+    console.log(prefCodeState.prefCodes)
+  }
+
   return (
     <form
       className={style.container}
-      onSubmit={handleSubmit(async data => {
-        const selectList:string[] = []
-        const selectListNumber: number[] = []
-        for(const property in data["SelectPrefectures"]){
-          if(data.SelectPrefectures[property]){
-            console.log(property)
-            selectList.push(property)
-          }
-        }
-
-        for(const pref of Prefectures){
-          if(pref.prefName === selectList[0]){
-            selectListNumber.push(pref.prefCode)
-            selectList.shift()
-          }
-        }
-
-      })}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <div className={style["checkbox-container"]}>
         {PrefectureNames.map(prefName => {
