@@ -1,4 +1,5 @@
 "use client"
+import { usePageState } from "nrstate-client"
 import {
   CartesianGrid,
   Legend,
@@ -9,9 +10,19 @@ import {
   YAxis,
 } from "recharts"
 import { CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart"
+import RESAS from "@/resas"
+import { prefCodes } from "@/state/submit-prefcode"
 import style from "@/styles/chart.module.css"
+import { PopulationResponse } from "@/types/resas"
 
 export default function Chart() {
+  const [prefCodes] = usePageState<prefCodes>()
+  const ResasFetcher = RESAS()
+  const FetchResult = ResasFetcher({
+    name: "population",
+    prefCodes: prefCodes.prefCodes
+  }) as unknown as PopulationResponse[]
+  console.log(FetchResult)
   const ChartProp: CategoricalChartProps = {
     width: 580,
     height: 200,
