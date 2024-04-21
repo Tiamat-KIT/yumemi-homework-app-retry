@@ -1,7 +1,9 @@
+import { Prefecture } from "@/types/resas"
+
 export const path = "/"
 
-export type prefCodes = {
-    prefCodes: Array<number>
+export type PrefState = {
+    pref: Prefecture[]
 }
 
-export const initialPrefCodes = {prefCodes: []} as prefCodes
+export const initialPrefCodes = {pref: []} as PrefState
