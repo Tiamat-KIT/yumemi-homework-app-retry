@@ -8,7 +8,7 @@ import {
   FieldValues,
   SubmitHandler
 } from "react-hook-form"
-import {path,prefCodes} from "@/state/submit-prefcode"
+import {path,PrefState} from "@/state/submit-prefcode"
 import style from "@/styles/form.module.css"
 import { Prefecture } from "@/types/resas"
 
@@ -16,7 +16,7 @@ export default function Form({ Prefectures }: { Prefectures: Prefecture[] }) {
   const PrefectureNames = Prefectures.map(pref => pref.prefName)
   const ConstPrefectureNames = [...PrefectureNames] as const
 
-  const [prefCodeState, setPrefCodeState] = usePageState<prefCodes>()
+  const [,setPrefState] = usePageState<PrefState>()
   interface PrefectureSelectState {
     SelectPrefectures: {
       [key in (typeof ConstPrefectureNames)[number]]: boolean
@@ -64,14 +64,13 @@ export default function Form({ Prefectures }: { Prefectures: Prefecture[] }) {
   }
 
   const onSubmit: SubmitHandler<PrefectureSelectState>  = (data: PrefectureSelectState) => {
-    const PrefCodes = []
     for(const property in data["SelectPrefectures"]){
       if(data["SelectPrefectures"][property] === true){
-        PrefCodes.push(Prefectures.find(pref => pref.prefName === property)?.prefCode)
+        setPrefState({
+          pref: [{prefCode: Prefectures.find(pref => pref.prefName === property)!.prefCode, prefName: property}]
+        },path)
       }
     }
-    setPrefCodeState({prefCodes: PrefCodes as number[]},path)
-    console.log(prefCodeState.prefCodes)
   }
 
   return (
