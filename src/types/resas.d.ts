@@ -51,5 +51,5 @@ export type FetchDataSelect =
     }
   | {
       name: "population"
-      prefCodes?: number[]
+      prefDatus: Prefecture[]
     }
