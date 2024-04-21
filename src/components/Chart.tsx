@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react"
-import { usePageState } from "nrstate-client"
+import { getPageState } from "nrstate-client"
 import {
   CartesianGrid,
   Legend,
@@ -12,13 +12,17 @@ import {
 } from "recharts"
 import { CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart"
 import RESAS from "@/resas"
-import { PrefState } from "@/state/submit-prefcode"
+import { PrefState, initialPrefState,path } from "@/state/submit-prefcode"
 import style from "@/styles/chart.module.css"
-import { ChartData, PopulationResponse } from "@/types/resas"
+import { ChartData } from "@/types/resas"
 
 export default function Chart() {
   const [fetchState, setFetchState] = useState<ChartData>()
-  const [prefState] = usePageState<PrefState>()
+  const prefState = getPageState<PrefState>(
+    {
+      pref: initialPrefState.pref
+    },path
+  )
   const ResasFetcher = RESAS()
   const FetchResult = ResasFetcher({
     name: "population",
