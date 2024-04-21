@@ -10,11 +10,7 @@ export default async function Home() {
   const Resas = RESAS()
   const Prefectures = (await Resas({ name: "prefectures" })) as unknown as PrefectureResponse
   return (
-    <main
-      style={{
-        height: "60vh"
-      }}
-    >
+    <main>
       <PageStateProvider
         current={currentPageState<PrefState>(initialPrefState,path)}
         >
