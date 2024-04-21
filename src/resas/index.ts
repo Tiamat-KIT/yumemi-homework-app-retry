@@ -45,11 +45,11 @@ export default function RESAS() {
     } else {
       const fetchDatus = await Promise.all(
         fetchUrls.map((url,idx) => {
-          return fetch(url, fetchOptions).then(res => {
+          return fetch(url, fetchOptions).then(async res => {
             if (res.ok) {
               if(category.name === "population") {
                 return {
-                  [`${category.prefDatus![idx].prefName}`]: res.json() as Promise<PopulationResponse>
+                  [`${category.prefDatus![idx].prefName}`]: await res.json() as PopulationResponse
                 }
               }
             } else {
@@ -58,7 +58,12 @@ export default function RESAS() {
           })
         })
       )
-      return fetchDatus
+      fetchDatus.map((fetchDatum) => {
+        if(fetchDatum === undefined){
+          throw new Error("取得に失敗しました")
+        }
+      })
+      return fetchDatus as { [x: string]: PopulationResponse }[]
     }
   }
 }
