@@ -1,8 +1,8 @@
 "use client"
 import { useEffect, useRef } from "react"
-import { usePageState } from "nrstate-client"
+import { useAtom } from "jotai"
 import { Path, useForm, UseFormRegister, FieldValues, SubmitHandler } from "react-hook-form"
-import { path, PrefState } from "@/state/submit-prefcode"
+import { AtomPrefectures } from "@/globalstate/prefcodes"
 import style from "@/styles/form.module.css"
 import { Prefecture } from "@/types/resas"
 
@@ -10,7 +10,8 @@ export default function Form({ Prefectures }: { Prefectures: Prefecture[] }) {
   const PrefectureNames = Prefectures.map(pref => pref.prefName)
   const ConstPrefectureNames = [...PrefectureNames] as const
 
-  const [, setPrefState] = usePageState<PrefState>()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, setPrefState] = useAtom(AtomPrefectures)
   interface PrefectureSelectState {
     SelectPrefectures: {
       [key in (typeof ConstPrefectureNames)[number]]: boolean
@@ -58,16 +59,16 @@ export default function Form({ Prefectures }: { Prefectures: Prefecture[] }) {
   }
 
   const onSubmit: SubmitHandler<PrefectureSelectState> = (data: PrefectureSelectState) => {
+    const PrefSubmitList: Prefecture[] = []
     for (const property in data["SelectPrefectures"]) {
       if (data["SelectPrefectures"][property] === true) {
-        setPrefState(
-          {
-            pref: [{ prefCode: Prefectures.find(pref => pref.prefName === property)!.prefCode, prefName: property }]
-          },
-          path
-        )
+        PrefSubmitList.push({
+          prefCode: Prefectures.find(pref => pref.prefName === property)!.prefCode,
+          prefName: property
+        })
       }
     }
+    setPrefState(PrefSubmitList)
   }
 
   return (

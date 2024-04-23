@@ -55,8 +55,17 @@ export type FetchDataSelect =
     }
 
 /**
- * @param Chart表示用のデータ型定義
+ * @param 人口データ取得時のデータ形式定義
  */
-export type ChartData = {
+export type PrefecturePopulationData = {
   [x: string]: PopulationResponse
 }[]
+
+/**
+ * @param グラフ表示の単体データ型定義
+ */
+export type ChartData = {
+  name: string
+  year: number
+  value: number
+}
