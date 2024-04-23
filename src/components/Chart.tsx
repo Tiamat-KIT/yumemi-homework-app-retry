@@ -1,29 +1,27 @@
 "use client"
-import { useState } from "react"
-import { getPageState } from "nrstate-client"
+import { useEffect, useState } from "react"
+import { useAtom } from "jotai"
 import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts"
 import { CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart"
+import { AtomPrefectures } from "@/globalstate/prefcodes"
 import RESAS from "@/resas"
-import { PrefState, initialPrefState, path } from "@/state/submit-prefcode"
 import style from "@/styles/chart.module.css"
-import { ChartData } from "@/types/resas"
+import { PrefecturePopulationData,ChartData } from "@/types/resas"
 
 export default function Chart() {
-  const [fetchState, setFetchState] = useState<ChartData>()
-  const prefState = getPageState<PrefState>(
-    {
-      pref: initialPrefState.pref
-    },
-    path
-  )
-  const ResasFetcher = RESAS()
-  const FetchResult = ResasFetcher({
-    name: "population",
-    prefDatus: prefState.pref
-  }).then(res => {
-    setFetchState(res as ChartData)
-  })
-  console.log(FetchResult)
+  const [fetchState, setFetchState] = useState<PrefecturePopulationData>()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [prefState,_] = useAtom(AtomPrefectures)
+  useEffect(() => {
+    RESAS()({
+      name: "population",
+      prefDatus: prefState
+    }).then(res => {
+      setFetchState(res as PrefecturePopulationData)
+    })
+  },[prefState])
+  console.log(fetchState)
+  
   const ChartProp: CategoricalChartProps = {
     width: 580,
     height: 200,

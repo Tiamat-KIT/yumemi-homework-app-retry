@@ -1,4 +1,4 @@
-import { FetchDataSelect, PopulationResponse, PrefectureResponse } from "@/types/resas"
+import { FetchDataSelect, PopulationResponse, PrefecturePopulationData, PrefectureResponse } from "@/types/resas"
 
 export default function RESAS() {
   if (process.env.RESAS_API_KEY === "" || process.env.RESAS_API_KEY === undefined) {
@@ -62,7 +62,7 @@ export default function RESAS() {
           throw new Error("取得に失敗しました")
         }
       })
-      return fetchDatus as { [x: string]: PopulationResponse }[]
+      return fetchDatus as PrefecturePopulationData
     }
   }
 }

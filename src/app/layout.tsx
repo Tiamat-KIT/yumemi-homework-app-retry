@@ -1,8 +1,6 @@
-import {currentPageState} from "nrstate"
-import PageStateProvider from "nrstate-client/PageStateProvider"
+import { Provider as JotaiProvider } from "jotai"
 import Footer from "@/components/Footer"
 import Navbar from "@/components/Navbar"
-import { PrefState,initialPrefState,path } from "@/state/submit-prefcode"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -22,12 +20,11 @@ export default function RootLayout({
           height: "100vh"
         }}
       >
-        <PageStateProvider
-          current={currentPageState<PrefState>(initialPrefState, path)}>
+      <JotaiProvider>
           <Navbar />
           {children}
           <Footer />
-        </PageStateProvider>
+      </JotaiProvider>
       </body>
     </html>
   )
