@@ -1,5 +1,5 @@
 "use client"
-import { use } from "react"
+import { Suspense, use } from "react"
 import { useAtom } from "jotai"
 import useSWR from "swr"
 import useSWRImmutable from "swr/immutable"
@@ -22,26 +22,29 @@ export default function Home() {
   )
   if (error) throw error
 
-  const {data: PrefsPopulatinonValue,isLoading} = useSWR(prefState,(prefs) => {
-    return prefs.map((pref) => {
-      return use(fetch(`https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=${pref.prefCode}`).then(res => {
-        return {
-          PrefName: pref.prefName,
-          PopulationValues: use(res.json().then((json) => (json as PopulationResponse).result.data))
-          } satisfies PrefPopulationData
-        }
-      ))
-    })
-  })
-
+  
+  function SuspenseChart() {
+    const {data: PrefsPopulatinonValue} = useSWR(prefState,(prefs) => {
+      return prefs.map((pref) => {
+        return use(fetch(`https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=${pref.prefCode}`).then(res => {
+          return {
+            PrefName: pref.prefName,
+            PopulationValues: use(res.json().then((json) => (json as PopulationResponse).result.data))
+            } satisfies PrefPopulationData
+          }
+        ))
+      })
+    },{suspense: true})
+    return <HChart PopulateYears={PrefsPopulatinonValue ? PrefsPopulatinonValue[0].PopulationValues[0].data.map((PopulationDatus) => {
+      return `${PopulationDatus.year}`
+    }) : []} chartDatus={PrefsPopulatinonValue !== undefined ? PrefsPopulatinonValue : []}/>
+  }
   
   return (
     <main>
-        {isLoading ? <p>Loading…</p> : <HChart PopulateYears={
-          PrefsPopulatinonValue ? PrefsPopulatinonValue[0].PopulationValues[0].data.map((PopulationDatus) => {
-            return `${PopulationDatus.year}`
-          }) : []
-        } chartDatus={PrefsPopulatinonValue !== undefined ? PrefsPopulatinonValue : []}/>}
+        <Suspense fallback={<p>Chart Loading...</p>}>
+          <SuspenseChart />
+        </Suspense>
         {PrefectureIsLoading ? <p>Form Loading...</p> : Prefectures &&  <Form Prefectures={Prefectures.result}/>}
     </main>
   )
