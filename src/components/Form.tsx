@@ -6,8 +6,8 @@ import { AtomPrefectures } from "@/globalstate/prefcodes"
 import style from "@/styles/form.module.css"
 import { Prefecture } from "@/types/resas"
 
-export default function Form({ Prefectures }: { Prefectures: Prefecture[] }) {
-  const PrefectureNames = Prefectures.map(pref => pref.prefName)
+export default function Form({ PrefectureNames }: { PrefectureNames: Array<string> }) {
+
   const ConstPrefectureNames = [...PrefectureNames] as const
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -63,7 +63,7 @@ export default function Form({ Prefectures }: { Prefectures: Prefecture[] }) {
     for (const property in data["SelectPrefectures"]) {
       if (data["SelectPrefectures"][property] === true) {
         PrefSubmitList.push({
-          prefCode: Prefectures.find(pref => pref.prefName === property)!.prefCode,
+          prefCode: PrefectureNames.indexOf(property) + 1,
           prefName: property
         })
       }
@@ -78,6 +78,13 @@ export default function Form({ Prefectures }: { Prefectures: Prefecture[] }) {
           return <CheckBox key={prefName} register={register} path={`SelectPrefectures.${prefName}`} label={prefName} />
         })}
       </div>
+      {/** "総人口" | "年少人口" | "生産年齢人口" | "老年人口"を選択できるSelect要素を出す */}
+      <select>
+        <option value="総人口">総人口</option>
+        <option value="年少人口">年少人口</option>
+        <option value="生産年齢人口">生産年齢人口</option>
+        <option value="老年人口">老年人口</option>
+      </select>
       <button type="submit">Submit</button>
     </form>
   )

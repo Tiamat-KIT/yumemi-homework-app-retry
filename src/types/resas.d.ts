@@ -3,7 +3,7 @@
  */
 
 export type PopulationResponse = {
-  message: string
+  message: string | null
   result: {
     boundaryYear: number
     data: Population[]
@@ -11,15 +11,26 @@ export type PopulationResponse = {
 }
 
 /**
+ * @param 人口の区分のユニオン型
+ */
+export type PopulationJanrUnion = "総人口" | "年少人口" | "生産年齢人口" | "老年人口"
+
+/**
+ *  @param 人口データ本体の型定義
+ */
+export type PopulationDataType = {
+  year: number
+  value: number
+  rate?: number
+}
+
+/**
  * @param 県ごとの人口構成データの型定義
  */
 
 export type Population = {
-  label: string
-  data: {
-    year: number
-    value: number
-  }[]
+  label: PopulationJanrUnion
+  data: PopulationDataType[]
 }
 
 /**
@@ -57,15 +68,12 @@ export type FetchDataSelect =
 /**
  * @param 人口データ取得時のデータ形式定義
  */
-export type PrefecturePopulationData = {
-  [x: string]: PopulationResponse
-}[]
+export type FetchedPopulation = PopulationResponse[]
 
 /**
  * @param グラフ表示の単体データ型定義
  */
-export type ChartData = {
-  name: string
-  year: number
-  value: number
+export type PrefPopulationData = {
+  PrefName: string
+  PopulationValues: Population[]
 }
