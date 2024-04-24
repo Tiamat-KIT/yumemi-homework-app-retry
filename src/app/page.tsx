@@ -12,7 +12,7 @@ export default function Home() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [prefState,_] = useAtom(AtomPrefectures)
 
-  const {data: Prefectures,error}= useSWRImmutable("https://opendata.resas-portal.go.jp/api/v1/prefectures", (url) => fetch(url, {
+  const {data: Prefectures,error,isLoading: PrefectureIsLoading}= useSWRImmutable("https://opendata.resas-portal.go.jp/api/v1/prefectures", (url) => fetch(url, {
     method: "GET",
     headers: {
       "X-API-KEY": process.env.RESAS_API_KEY as string,
@@ -34,24 +34,15 @@ export default function Home() {
     })
   })
 
-  if(Prefectures === undefined){
-    throw new Error("都道府県データの取得に失敗しました")
-  }
-
   
-  if(PrefsPopulatinonValue === undefined){
-    throw new Error("データの取得に失敗しました。")
-  }
-
-  
-  const YearsStr = PrefsPopulatinonValue[0].PopulationValues[0].data.map((PopulationDatus) => {
-    return `${PopulationDatus.year}`
-  }) 
-
   return (
     <main>
-        {isLoading ? <p>Loading…</p> : <HChart PopulateYears={YearsStr} chartDatus={PrefsPopulatinonValue}/>}
-        <Form Prefectures={Prefectures.result}/>
+        {isLoading ? <p>Loading…</p> : <HChart PopulateYears={
+          PrefsPopulatinonValue ? PrefsPopulatinonValue[0].PopulationValues[0].data.map((PopulationDatus) => {
+            return `${PopulationDatus.year}`
+          }) : []
+        } chartDatus={PrefsPopulatinonValue !== undefined ? PrefsPopulatinonValue : []}/>}
+        {PrefectureIsLoading ? <p>Form Loading...</p> : Prefectures &&  <Form Prefectures={Prefectures.result}/>}
     </main>
   )
 }
