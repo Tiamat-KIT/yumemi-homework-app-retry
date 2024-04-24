@@ -1,44 +1,50 @@
-import { test } from '@playwright/test';
+import { test } from "@playwright/test"
 
-test('test', async ({ page }) => {
-  await page.goto('http://localhost:3000/');
-  await page.getByText('大阪県').click();
-  await page.getByText('大阪県').click();
-  await page.getByLabel('人口構成').getByText('東京都').click();
-  await page.getByLabel('人口構成').getByText('東京都').click();
-  await page.locator('g:nth-child(4) > path:nth-child(9)').click();
-  await page.getByText('北海道').click();
-  await page.getByText('Japan Prefecture Population ChartCreated with Highcharts 11.4.1年人口人口構成Source:').press('ArrowDown');
-  await page.getByText('Japan Prefecture Population ChartCreated with Highcharts 11.4.1年人口人口構成Source:').press('ArrowDown');
-  await page.getByText('Japan Prefecture Population ChartCreated with Highcharts 11.4.1年人口人口構成Source:').press('Tab');
-  await page.getByRole('combobox').press('Tab');
-  await page.getByRole('button', { name: 'Submit' }).press('Tab');
-  await page.getByRole('combobox').press('Tab');
-  await page.getByRole('button', { name: 'Submit' }).press('Tab');
-  await page.getByText('宮城県').click();
-  await page.getByText('福島県').click();
-  await page.getByRole('button', { name: 'Submit' }).click();
-  await page.getByLabel('人口構成').getByText('北海道').click();
-  await page.getByLabel('人口構成').getByText('北海道').click();
-  await page.getByLabel('人口構成').getByText('宮城県').click();
-  await page.getByLabel('人口構成').getByText('宮城県').click();
-  await page.getByLabel('人口構成').getByText('福島県').click();
-  await page.getByLabel('人口構成').getByText('福島県').click();
-  await page.getByLabel('人口構成').getByText('福島県').click();
-  await page.getByLabel('人口構成').getByText('福島県').click();
-  await page.getByLabel('人口構成').getByText('北海道').click();
-  await page.getByLabel('人口構成').getByText('宮城県').click();
-  await page.getByLabel('人口構成').getByText('福島県').click();
-  await page.getByLabel('人口構成').getByText('福島県').click();
-  await page.getByLabel('人口構成').getByText('宮城県').click();
-  await page.getByLabel('人口構成').getByText('北海道').click();
-  await page.getByText('島根県').click();
-  await page.getByText('山口県').click();
-  await page.getByText('愛媛県').click();
-  await page.getByText('佐賀県').click();
-  await page.getByRole('button', { name: 'Submit' }).click();
-  await page.getByRole('combobox').selectOption('年少人口');
-  await page.getByRole('button', { name: 'Submit' }).click();
-  await page.getByRole('combobox').selectOption('生産年齢人口');
-  await page.getByRole('button', { name: 'Submit' }).click();
-});
+test("test", async ({ page }) => {
+  await page.goto("http://localhost:3000/")
+  await page.getByText("大阪県").click()
+  await page.getByText("大阪県").click()
+  await page.getByLabel("人口構成").getByText("東京都").click()
+  await page.getByLabel("人口構成").getByText("東京都").click()
+  await page.locator("g:nth-child(4) > path:nth-child(9)").click()
+  await page.getByText("北海道").click()
+  await page
+    .getByText("Japan Prefecture Population ChartCreated with Highcharts 11.4.1年人口人口構成Source:")
+    .press("ArrowDown")
+  await page
+    .getByText("Japan Prefecture Population ChartCreated with Highcharts 11.4.1年人口人口構成Source:")
+    .press("ArrowDown")
+  await page
+    .getByText("Japan Prefecture Population ChartCreated with Highcharts 11.4.1年人口人口構成Source:")
+    .press("Tab")
+  await page.getByRole("combobox").press("Tab")
+  await page.getByRole("button", { name: "Submit" }).press("Tab")
+  await page.getByRole("combobox").press("Tab")
+  await page.getByRole("button", { name: "Submit" }).press("Tab")
+  await page.getByText("宮城県").click()
+  await page.getByText("福島県").click()
+  await page.getByRole("button", { name: "Submit" }).click()
+  await page.getByLabel("人口構成").getByText("北海道").click()
+  await page.getByLabel("人口構成").getByText("北海道").click()
+  await page.getByLabel("人口構成").getByText("宮城県").click()
+  await page.getByLabel("人口構成").getByText("宮城県").click()
+  await page.getByLabel("人口構成").getByText("福島県").click()
+  await page.getByLabel("人口構成").getByText("福島県").click()
+  await page.getByLabel("人口構成").getByText("福島県").click()
+  await page.getByLabel("人口構成").getByText("福島県").click()
+  await page.getByLabel("人口構成").getByText("北海道").click()
+  await page.getByLabel("人口構成").getByText("宮城県").click()
+  await page.getByLabel("人口構成").getByText("福島県").click()
+  await page.getByLabel("人口構成").getByText("福島県").click()
+  await page.getByLabel("人口構成").getByText("宮城県").click()
+  await page.getByLabel("人口構成").getByText("北海道").click()
+  await page.getByText("島根県").click()
+  await page.getByText("山口県").click()
+  await page.getByText("愛媛県").click()
+  await page.getByText("佐賀県").click()
+  await page.getByRole("button", { name: "Submit" }).click()
+  await page.getByRole("combobox").selectOption("年少人口")
+  await page.getByRole("button", { name: "Submit" }).click()
+  await page.getByRole("combobox").selectOption("生産年齢人口")
+  await page.getByRole("button", { name: "Submit" }).click()
+})
