@@ -1,53 +1,18 @@
 "use client"
-import { useEffect, useRef, useState } from "react"
+import { useRef } from "react"
 import Highcharts from "highcharts"
 import HighchartsReact from "highcharts-react-official"
-import { useAtom } from "jotai"
-import { AtomPrefectures } from "@/globalstate/prefcodes"
-import RESAS from "@/resas"
-import { FetchedPopulation,PrefPopulationData } from "@/types/resas"
 
-export default function HChart(){
-    const [fetchState,setFetchState] = useState<FetchedPopulation>()
-    const [PopulateYears,setPopulateYears] = useState<string[]>([])
-    const [chartDatus,setChartDatus] = useState<PrefPopulationData[]>()
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [prefState,_] = useAtom(AtomPrefectures)
+import { PrefPopulationData } from "@/types/resas"
 
-    useEffect(() => {
-        RESAS()({
-            name: "population",
-            prefDatus: prefState
-        }).then(res => {
-            
-            console.log(res)
-            setFetchState(res as FetchedPopulation)
-            if(fetchState === undefined){
-                throw new Error("都道府県のデータをAPIから正常に取得できていないです")
-            }
-            fetchState[0].result.data.forEach((population) => {
-                population.data.forEach((populate) => {
-                    setPopulateYears([...PopulateYears,`${populate.year}`])
-                })
-            })
-            setChartDatus(
-                [
-                    ...prefState.map((prefecture,idx) => {
-                        if(fetchState === undefined){
-                            throw new Error(`${idx + 1}番目の都道府県のデータをが正常に取得できていないです`)
-                        }
-                        return {
-                                PrefName: prefecture.prefName,
-                                PopulationValues: fetchState[idx].result.data
-                            } satisfies PrefPopulationData
-                        })
-                ]
-            )
-            if(chartDatus === undefined){
-                throw new Error("都道府県データを正常にセットできていません in UseEffect")
-            }
-        })
-    },[prefState])
+export default function HChart({
+    PopulateYears,
+    chartDatus
+}:{
+    PopulateYears: Array<string>,
+    chartDatus: PrefPopulationData[]
+}){
+    
 
     const ChartOptions: Highcharts.Options = {
         chart: {
