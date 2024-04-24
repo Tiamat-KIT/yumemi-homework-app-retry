@@ -1,11 +1,8 @@
 
 "use client"
-import { useCallback } from "react"
-import { useAtom } from "jotai"
 import useSWRImmutable from "swr/immutable"
-import Chart from "@/components/Chart"
 import Form from "@/components/Form"
-import { AtomPrefectures } from "@/globalstate/prefcodes"
+import HChart from "@/components/HChart"
 import { PrefectureResponse } from "@/types/resas"
 
 export default function Home() {
@@ -23,7 +20,7 @@ export default function Home() {
 
   return (
     <main>
-        <Chart />
+        <HChart />
         <Form Prefectures={Prefectures.result}/>
     </main>
   )

@@ -21,7 +21,7 @@ export default function HChart(){
         }).then(res => {
             setFetchState(res as FetchedPopulation)
             if(fetchState === undefined){
-                throw new Error("都道府県のデータをが正常に取得できていないです")
+                throw new Error("都道府県のデータをAPIから正常に取得できていないです")
             }
             fetchState[0].result.data.forEach((population) => {
                 population.data.forEach((populate) => {
@@ -32,7 +32,7 @@ export default function HChart(){
                 [
                     ...prefState.map((prefecture,idx) => {
                         if(fetchState === undefined){
-                            throw new Error("都道府県のデータをが正常に取得できていないです")
+                            throw new Error(`${idx + 1}番目の都道府県のデータをが正常に取得できていないです`)
                         }
                         return {
                                 PrefName: prefecture.prefName,
@@ -42,21 +42,10 @@ export default function HChart(){
                 ]
             )
             if(chartDatus === undefined){
-                throw new Error("都道府県データを正常にセットできていません")
+                throw new Error("都道府県データを正常にセットできていません in UseEffect")
             }
         })
     },[prefState])
-
-    if(chartDatus === undefined){
-        throw new Error("都道府県データを正常にセットできていません")
-    }
-
-    const testViewData = chartDatus.map((PrefPopulate) => {
-        return {
-            name: PrefPopulate.PrefName,
-            data: PrefPopulate.PopulationValues.filter((Populate) => {return Populate.label === "総人口"})
-        }
-    })
 
     const ChartOptions: Highcharts.Options = {
         chart: {
@@ -95,7 +84,12 @@ export default function HChart(){
              *   data: [人口データ]
              * }
              */
-            series: testViewData as Highcharts.SeriesOptionsType[]
+            series: chartDatus !== undefined ? chartDatus.map((PrefPopulate) => {
+                return {
+                    name: PrefPopulate.PrefName,
+                    data: PrefPopulate.PopulationValues.filter((Populate) => {return Populate.label === "総人口"})
+                }
+            }) as Highcharts.SeriesOptionsType[] : []
     }
 
     const chartRef = useRef<HighchartsReact.RefObject>(null)
