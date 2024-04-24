@@ -1,4 +1,4 @@
-import { FetchDataSelect, PopulationResponse, PrefecturePopulationData, PrefectureResponse } from "@/types/resas"
+import { FetchDataSelect, PopulationResponse, PrefectureResponse } from "@/types/resas"
 
 export default function RESAS() {
   if (process.env.RESAS_API_KEY === "" || process.env.RESAS_API_KEY === undefined) {
@@ -43,13 +43,11 @@ export default function RESAS() {
       return (await FetchPrefectureResponse.json()) as PrefectureResponse
     } else {
       const fetchDatus = await Promise.all(
-        fetchUrls.map((url, idx) => {
+        fetchUrls.map((url) => {
           return fetch(url, fetchOptions).then(async res => {
             if (res.ok) {
               if (category.name === "population") {
-                return {
-                  [`${category.prefDatus![idx].prefName}`]: (await res.json()) as PopulationResponse
-                }
+                return res.json() as Promise<PopulationResponse>
               }
             } else {
               throw new Error("APIの取得に失敗しました")
@@ -57,12 +55,13 @@ export default function RESAS() {
           })
         })
       )
-      fetchDatus.map(fetchDatum => {
+      const ResponseDatus = fetchDatus.map(fetchDatum => {
         if (fetchDatum === undefined) {
           throw new Error("取得に失敗しました")
         }
+        return fetchDatum
       })
-      return fetchDatus as PrefecturePopulationData
+      return ResponseDatus
     }
   }
 }
