@@ -19,6 +19,8 @@ export default function HChart(){
             name: "population",
             prefDatus: prefState
         }).then(res => {
+            
+            console.log(res)
             setFetchState(res as FetchedPopulation)
             if(fetchState === undefined){
                 throw new Error("都道府県のデータをAPIから正常に取得できていないです")
