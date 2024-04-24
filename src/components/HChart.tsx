@@ -1,11 +1,11 @@
 "use client"
-import { use, useEffect, useRef, useState } from "react"
-import Highcharts from "highcharts"
-import HighchartsReact from "highcharts-react-official"
+import { /* use,  */useEffect,/*  useRef, useState */ } from "react"
+/* import Highcharts from "highcharts"
+import HighchartsReact from "highcharts-react-official" */
 import { useAtom } from "jotai"
-import useSWR from "swr"
+/* import useSWR from "swr" */
 import { AtomPrefectures } from "@/globalstate/prefcodes"
-import { PopulationResponse, PrefPopulationData } from "@/types/resas"
+/* import { PopulationResponse, PrefPopulationData } from "@/types/resas" */
 
 export default function HChart(){
     //const chartRef = useRef<HighchartsReact.RefObject>(null)
