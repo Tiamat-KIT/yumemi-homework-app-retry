@@ -19,6 +19,5 @@ export async function GET(){
     }
 
     const Prefectures = await res.json() as PrefectureResponse
-    alert("取得に成功しました")
     return Response.json(Prefectures)
 }
