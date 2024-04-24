@@ -16,7 +16,7 @@ export default function HChart() {
   useEffect(() => {
     console.log("Atomを使うFormの現在の入力値は", prefState)
     const PrefPopulations = fetch(
-      `${process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000'}/api/population?prefcodes=${[
+      `${'https://' + process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000'}/api/population?prefcodes=${[
         ...prefState.map(pref => {
           return pref.prefCode
         })
