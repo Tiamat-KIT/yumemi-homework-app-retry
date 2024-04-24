@@ -1,11 +1,21 @@
-import { PopulationResponse } from "../../../../types/resas"
+import { PopulationResponse } from "../../../types/resas"
 
-export async function GET(request: Request,{params}: {params: {prefcodes: string[]}}){
+export async function POST(request: Request){
     if(process.env.RESAS_API_KEY === "" || process.env.RESAS_API_KEY === undefined){
         throw new Error("API_KEYが設定されていません")  
     }
 
-    const PrefPopulations = await Promise.all(params.prefcodes.map(prefcode => {
+    const {searchParams} = new URL(request.url)
+    const params = searchParams.get("prefcodes")
+    if(params === null){
+        throw new Error("パラメータが不正です")
+    }
+    // クエリパラメータは、"1,2,3,4"のようにカンマ区切りで送られてくるので、splitで配列に変換する
+    const prefcodes = params.split(",").map(prefcode => {
+        return parseInt(prefcode)
+    })
+
+    const PrefPopulations = await Promise.all(prefcodes.map(prefcode => {
         return fetch(`https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=${prefcode}`, {
             method: "GET",
             headers: {

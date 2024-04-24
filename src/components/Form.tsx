@@ -78,6 +78,13 @@ export default function Form({ PrefectureNames }: { PrefectureNames: Array<strin
           return <CheckBox key={prefName} register={register} path={`SelectPrefectures.${prefName}`} label={prefName} />
         })}
       </div>
+      {/** "総人口" | "年少人口" | "生産年齢人口" | "老年人口"を選択できるSelect要素を出す */}
+      <select>
+        <option value="総人口">総人口</option>
+        <option value="年少人口">年少人口</option>
+        <option value="生産年齢人口">生産年齢人口</option>
+        <option value="老年人口">老年人口</option>
+      </select>
       <button type="submit">Submit</button>
     </form>
   )
