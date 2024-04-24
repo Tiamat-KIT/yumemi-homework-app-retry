@@ -6,8 +6,8 @@ import { AtomPrefectures } from "@/globalstate/prefcodes"
 import style from "@/styles/form.module.css"
 import { Prefecture } from "@/types/resas"
 
-export default function Form({ Prefectures }: { Prefectures: Prefecture[] }) {
-  const PrefectureNames = Prefectures.map(pref => pref.prefName)
+export default function Form({ PrefectureNames }: { PrefectureNames: Array<string> }) {
+
   const ConstPrefectureNames = [...PrefectureNames] as const
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -63,7 +63,7 @@ export default function Form({ Prefectures }: { Prefectures: Prefecture[] }) {
     for (const property in data["SelectPrefectures"]) {
       if (data["SelectPrefectures"][property] === true) {
         PrefSubmitList.push({
-          prefCode: Prefectures.find(pref => pref.prefName === property)!.prefCode,
+          prefCode: PrefectureNames.indexOf(property) + 1,
           prefName: property
         })
       }
