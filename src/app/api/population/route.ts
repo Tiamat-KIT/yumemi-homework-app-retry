@@ -15,6 +15,13 @@ export async function POST(request: Request){
         return parseInt(prefcode)
     })
 
+    // 人口の区分は対応した配列のインデックスを使って引き出せる
+    const janr = searchParams.get("janr")
+    if(janr === null){
+        throw new Error("パラメータが不正です")
+    }
+    const JanrNum = parseInt(janr)
+
     const PrefPopulations = await Promise.all(prefcodes.map(prefcode => {
         return fetch(`https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=${prefcode}`, {
             method: "GET",
@@ -36,6 +43,14 @@ export async function POST(request: Request){
         }
         return await res.json() as Promise<PopulationResponse>
     }))
-    
-    return Response.json(PrefPopulationData)
+    const PrefPopulationDataFiltered = PrefPopulationData.map((PrefPopulation) => {
+        return {
+            message: PrefPopulation.message,
+            result: {
+                boundaryYear: PrefPopulation.result.boundaryYear,
+                data: PrefPopulation.result.data[JanrNum]
+            }
+        }
+    })
+    return Response.json(PrefPopulationDataFiltered)
 }
