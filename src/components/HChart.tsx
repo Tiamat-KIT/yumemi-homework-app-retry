@@ -6,6 +6,7 @@ import { useAtom } from "jotai"
 /* import useSWR from "swr" */
 import { AtomPrefectures } from "@/globalstate/prefcodes"
 import { PopulationResponse, PrefPopulationData } from "@/types/resas"
+import { HomeURL } from "@/util/url"
 
 export default function HChart() {
   const chartRef = useRef<HighchartsReact.RefObject>(null)
@@ -15,7 +16,7 @@ export default function HChart() {
   console.log("Atomを使うFormの現在の入力値は", prefState)
   useEffect(() => {
     console.log("Atomを使うFormの現在の入力値は", prefState)
-    const PrefPopulations = fetch(`https://yumemi-homework.vercel.app/api/population?prefcodes=${[
+    const PrefPopulations = fetch(`${HomeURL}/api/population?prefcodes=${[
         ...prefState.map(pref => {
           return pref.prefCode
         })
