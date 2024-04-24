@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from "react"
+import { useState, useCallback } from "react"
 import { useAtom } from "jotai"
 import useSWRImmutable from "swr/immutable"
 import Form from "@/components/Form"
@@ -24,45 +24,42 @@ export default function Home() {
     }).then(res => res.json() as Promise<PrefectureResponse>) 
   )
   if (error) throw error
-  useEffect(() => {
-    RESAS()({
-        name: "population",
-        prefDatus: prefState
-    }).then(res => {
-        
-        console.log(res)
-        setFetchState(res as FetchedPopulation)
-        if(fetchState === undefined){
-            throw new Error("都道府県のデータをAPIから正常に取得できていないです")
-        }
-        fetchState[0].result.data.forEach((population) => {
-            population.data.forEach((populate) => {
-                setPopulateYears([...PopulateYears,`${populate.year}`])
-            })
-        })
-        setChartDatus(
-            [
-                ...prefState.map((prefecture,idx) => {
-                    if(fetchState === undefined){
-                        throw new Error(`${idx + 1}番目の都道府県のデータをが正常に取得できていないです`)
-                    }
-                    return {
-                            PrefName: prefecture.prefName,
-                            PopulationValues: fetchState[idx].result.data
-                        } satisfies PrefPopulationData
-                    })
-            ]
-        )
-        if(chartDatus === undefined){
-            throw new Error("都道府県データを正常にセットできていません in UseEffect")
-        }
-    })
-  },[prefState])
   
-    
-
+  const FirstFetch = useCallback(() => RESAS()({
+      name: "population",
+      prefDatus: prefState
+  }).then(res => {
+      console.log(res)
+      setFetchState(res as FetchedPopulation)
+      if(fetchState === undefined){
+          throw new Error("都道府県のデータをAPIから正常に取得できていないです")
+      }
+      fetchState[0].result.data.forEach((population) => {
+          population.data.forEach((populate) => {
+              setPopulateYears([...PopulateYears,`${populate.year}`])
+          })
+      })
+      setChartDatus(
+          [
+              ...prefState.map((prefecture,idx) => {
+                  if(fetchState === undefined){
+                      throw new Error(`${idx + 1}番目の都道府県のデータをが正常に取得できていないです`)
+                  }
+                  return {
+                          PrefName: prefecture.prefName,
+                          PopulationValues: fetchState[idx].result.data
+                      } satisfies PrefPopulationData
+                  })
+          ]
+      )
+      if(chartDatus === undefined){
+          throw new Error("都道府県データを正常にセットできていません in UseEffect")
+      }
+  }),[prefState])
   
-
+  FirstFetch().then(() => {
+    console.log("Fetch Success!")
+  })
 
   return (
     <main>
