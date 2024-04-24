@@ -53,7 +53,7 @@ export default function Home() {
       }
     }
     FetchPopulationDatus()
-  },[prefState])
+  },[])
 
   return (
     <main>
