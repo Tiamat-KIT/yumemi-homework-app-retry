@@ -1,16 +1,14 @@
 "use client"
-import { useState, useEffect } from "react"
+import { use } from "react"
 import { useAtom } from "jotai"
+import useSWR from "swr"
 import useSWRImmutable from "swr/immutable"
 import Form from "@/components/Form"
 import HChart from "@/components/HChart"
 import { AtomPrefectures } from "@/globalstate/prefcodes"
-import RESAS from "@/resas"
-import { FetchedPopulation,PrefPopulationData, PrefectureResponse } from "@/types/resas"
+import { PopulationResponse,PrefPopulationData, PrefectureResponse } from "@/types/resas"
 
 export default function Home() {
-  const [PopulateYears,setPopulateYears] = useState<string[]>([])
-  const [chartDatus,setChartDatus] = useState<PrefPopulationData[]>()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [prefState,_] = useAtom(AtomPrefectures)
 
@@ -23,42 +21,32 @@ export default function Home() {
   }).then(res => res.json() as Promise<PrefectureResponse>) 
   )
   if (error) throw error
+  if(Prefectures === undefined) throw new Error("都道府県データの取得失敗")
 
-  useEffect(() => {
-    const FetchPopulationDatus = async() => {
-      try {
-        await RESAS()({
-          name: "population",
-          prefDatus: prefState
-        }).then((res) => {
-          const FetchResonse = res as FetchedPopulation
-          FetchResonse[0].result.data.forEach((population) => {
-            population.data.forEach((PopulateDatus) => {
-              setPopulateYears([...PopulateYears,`${PopulateDatus.year}`])
-            })
-          })
-      
-          setChartDatus(prefState.map((prefecture,idx) => {
-            if(FetchResonse === undefined){
-              throw new Error(`${idx + 1}番目の都道府県のデータをが正常に取得できていないです`)
-            }
-            return {
-              PrefName: prefecture.prefName,
-              PopulationValues: FetchResonse[idx].result.data
-            } satisfies PrefPopulationData
-            }))
-          })
-      }catch(error) {
-        throw new Error("都道府県の人口データの取得に失敗しました")
-      }
-    }
-    FetchPopulationDatus()
-  },[])
+  const {data: PrefsPopulatinonValue,isLoading} = useSWR(prefState,(prefs) => {
+    return prefs.map((pref) => {
+      return use(fetch(`https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=${pref.prefCode}`).then(res => {
+        return {
+          PrefName: pref.prefName,
+          PopulationValues: use(res.json().then((json) => (json as PopulationResponse).result.data))
+          } satisfies PrefPopulationData
+        }
+      ))
+    })
+  })
+
+  if(PrefsPopulatinonValue === undefined){
+    throw new Error("データの取得に失敗しました。")
+  }
+
+  const YearsStr = PrefsPopulatinonValue[0].PopulationValues[0].data.map((PopulationDatus) => {
+    return `${PopulationDatus.year}`
+  }) 
 
   return (
     <main>
-        <HChart PopulateYears={PopulateYears} chartDatus={chartDatus ? chartDatus : []}/>
-        <Form Prefectures={Prefectures ? Prefectures.result : []}/>
+        {isLoading ? <p>Loading…</p> : <HChart PopulateYears={YearsStr} chartDatus={PrefsPopulatinonValue}/>}
+        <Form Prefectures={Prefectures.result}/>
     </main>
   )
 }
