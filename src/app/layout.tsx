@@ -20,11 +20,11 @@ export default function RootLayout({
           height: "100vh"
         }}
       >
-      <JotaiProvider>
+        <JotaiProvider>
           <Navbar />
           {children}
           <Footer />
-      </JotaiProvider>
+        </JotaiProvider>
       </body>
     </html>
   )

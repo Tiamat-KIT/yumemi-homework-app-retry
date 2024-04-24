@@ -43,7 +43,7 @@ export default function RESAS() {
       return (await FetchPrefectureResponse.json()) as PrefectureResponse
     } else {
       const fetchDatus = await Promise.all(
-        fetchUrls.map((url) => {
+        fetchUrls.map(url => {
           return fetch(url, fetchOptions).then(async res => {
             if (res.ok) {
               if (category.name === "population") {
