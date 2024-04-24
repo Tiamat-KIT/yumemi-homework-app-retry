@@ -15,8 +15,7 @@ export default function HChart() {
   console.log("Atomを使うFormの現在の入力値は", prefState)
   useEffect(() => {
     console.log("Atomを使うFormの現在の入力値は", prefState)
-    const PrefPopulations = fetch(
-      `${'https://' + process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000'}/api/population?prefcodes=${[
+    const PrefPopulations = fetch(`https://yumemi-homework.vercel.app/api/population?prefcodes=${[
         ...prefState.map(pref => {
           return pref.prefCode
         })
