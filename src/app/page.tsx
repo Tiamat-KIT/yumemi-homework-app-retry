@@ -21,7 +21,6 @@ export default function Home() {
   }).then(res => res.json() as Promise<PrefectureResponse>) 
   )
   if (error) throw error
-  if(Prefectures === undefined) throw new Error("都道府県データの取得失敗")
 
   const {data: PrefsPopulatinonValue,isLoading} = useSWR(prefState,(prefs) => {
     return prefs.map((pref) => {
@@ -35,10 +34,16 @@ export default function Home() {
     })
   })
 
+  if(Prefectures === undefined){
+    throw new Error("都道府県データの取得に失敗しました")
+  }
+
+  
   if(PrefsPopulatinonValue === undefined){
     throw new Error("データの取得に失敗しました。")
   }
 
+  
   const YearsStr = PrefsPopulatinonValue[0].PopulationValues[0].data.map((PopulationDatus) => {
     return `${PopulationDatus.year}`
   }) 
