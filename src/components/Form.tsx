@@ -8,6 +8,9 @@ import { Prefecture } from "@/types/resas"
 
 export default function Form({ PrefectureNames }: { PrefectureNames: Array<string> }) {
 
+  /**
+   * 人口の分類の種類をStateで管理する予定
+   */
   const ConstPrefectureNames = [...PrefectureNames] as const
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
