@@ -1,5 +1,5 @@
 "use client"
-import { useState, useMemo } from "react"
+import { useState, useEffect } from "react"
 import { useAtom } from "jotai"
 import useSWRImmutable from "swr/immutable"
 import Form from "@/components/Form"
@@ -21,36 +21,39 @@ export default function Home() {
       "Content-Type": "application/json;charset=utf-8"
     }
   }).then(res => res.json() as Promise<PrefectureResponse>) 
-)
-if (error) throw error
+  )
+  if (error) throw error
 
-const MemoFetch = useMemo(() => {
-  const ResasFetch = RESAS()
-  return ResasFetch({
-    name: "population",
-    prefDatus: prefState
-  })
-  },[...prefState])
-  
-  MemoFetch.then((res) => {
-    const FetchResonse = res as FetchedPopulation
-    FetchResonse[0].result.data.forEach((population) => {
-      population.data.forEach((PopulateDatus) => {
-        setPopulateYears([...PopulateYears,`${PopulateDatus.year}`])
-      })
-    })
-
-    setChartDatus(prefState.map((prefecture,idx) => {
-      if(FetchResonse === undefined){
-          throw new Error(`${idx + 1}番目の都道府県のデータをが正常に取得できていないです`)
-      }
-      return {
+  useEffect(() => {
+    const FetchPopulationDatus = async() => {
+      try {
+        await RESAS()({
+          name: "population",
+          prefDatus: prefState
+        }).then((res) => {
+          const FetchResonse = res as FetchedPopulation
+          FetchResonse[0].result.data.forEach((population) => {
+            population.data.forEach((PopulateDatus) => {
+              setPopulateYears([...PopulateYears,`${PopulateDatus.year}`])
+            })
+          })
+      
+          setChartDatus(prefState.map((prefecture,idx) => {
+            if(FetchResonse === undefined){
+              throw new Error(`${idx + 1}番目の都道府県のデータをが正常に取得できていないです`)
+            }
+            return {
               PrefName: prefecture.prefName,
               PopulationValues: FetchResonse[idx].result.data
-          } satisfies PrefPopulationData
-      }))
-    }).catch(err => {throw new Error(`${err}が発生しました`)})
-  
+            } satisfies PrefPopulationData
+            }))
+          })
+      }catch(error) {
+        throw new Error("都道府県の人口データの取得に失敗しました")
+      }
+    }
+    FetchPopulationDatus()
+  },[prefState])
 
   return (
     <main>
