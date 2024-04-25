@@ -1,7 +1,7 @@
-import { NextApiRequest } from "next"
+import { NextRequest, NextResponse } from "next/server"
 import { PopulationResponse } from "../../../types/resas"
 
-async function POST(request: NextApiRequest) {
+async function POST(request: NextRequest) {
   if (process.env.RESAS_API_KEY === "" || process.env.RESAS_API_KEY === undefined) {
     throw new Error("API_KEYが設定されていません")
   }
