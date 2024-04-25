@@ -1,23 +1,33 @@
 "use client"
-/* import Form from "@/components/Form"
-import HChart from "@/components/HChart"
-import { PrefectureResponse } from "@/types/resas" */
+import { useEffect, useState } from "react"
+import Form from "@/components/Form"
+/* import HChart from "@/components/HChart"*/
+import { PrefectureResponse } from "@/types/resas" 
 import { HomeURL } from "@/util/url"
 
 export default function Home() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [Prefectures,setPrefectures] = useState<PrefectureResponse>()
 
-  fetch(
-    `${HomeURL}/api/prefecture`,
-    { method: "GET", next: { revalidate: 3600 } }
-  ).then(res => res.json()).then((PrefectureDatus) => {
-    console.log(PrefectureDatus)
-  })
+  const FetchPrefecture = async () => {
+    const FetchPrefectureResponse = await fetch(`${HomeURL}/api/prefecture`,{ method: "GET", next: { revalidate: 3600 } })
+    const PrefectureDatus = await FetchPrefectureResponse.json() as PrefectureResponse
+    if(PrefectureDatus === undefined){
+      throw new Error("データが取得できませんでした")
+    }
+    return PrefectureDatus
+  }
+
+  useEffect(() => {
+    FetchPrefecture().then(PrefectureDatus => {
+      setPrefectures(PrefectureDatus)
+    })
+  },[])
+
 
   return (
     <main>
-      {/* <HChart />
-      <Form PrefectureNames={PrefectureNames} /> */}
+      {/* <HChart /> */}
+      <Form PrefectureNames={Prefectures!.result.map((pref) => {return `${pref.prefName}`})} />
     </main>
   )
 }

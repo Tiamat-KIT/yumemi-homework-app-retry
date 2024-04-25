@@ -44,7 +44,7 @@ async function POST(request: Request) {
     })
   )
 
-  return Response.json({Populations: {PrefPopulationData}})
+  return Response.json(PrefPopulationData)
 }
 
 export {POST}
