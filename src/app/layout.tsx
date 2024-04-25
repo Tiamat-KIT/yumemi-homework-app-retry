@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import { Provider as JotaiProvider } from "jotai"
 import Footer from "@/components/Footer"
 import Navbar from "@/components/Navbar"
@@ -22,7 +23,9 @@ export default function RootLayout({
       >
         <JotaiProvider>
           <Navbar />
+          <Suspense fallback={<p>Loading…</p>}>
           {children}
+          </Suspense>
           <Footer />
         </JotaiProvider>
       </body>
