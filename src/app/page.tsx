@@ -1,35 +1,23 @@
 "use client"
-import { Suspense, useEffect, useState } from "react"
+import useSWR from "swr"
 import Form from "@/components/Form"
-/* import HChart from "@/components/HChart"*/
+import HChart from "@/components/HChart"
 import { PrefectureResponse } from "@/types/resas" 
 import { HomeURL } from "@/util/url"
 
 export default function Home() {
-  const [Prefectures,setPrefectures] = useState<PrefectureResponse>()
-
-  const FetchPrefecture = async () => {
-    const FetchPrefectureResponse = await fetch(`${HomeURL}/api/prefecture`,{ method: "GET", next: { revalidate: 3600 } })
-    const PrefectureDatus = await FetchPrefectureResponse.json() as PrefectureResponse
-    if(PrefectureDatus === undefined){
-      throw new Error("データが取得できませんでした")
+  const fetchUrl = `${HomeURL}/api/prefecture`
+  const {data,isLoading} = useSWR(fetchUrl,(url) => fetch(url,{ method: "GET", next: { revalidate: 3600 }}).then((res) => {
+    if(!(res.ok)){
+      throw new Error("Failed to fetch")
     }
-    return PrefectureDatus
-  }
-
-  useEffect(() => {
-    FetchPrefecture().then(PrefectureDatus => {
-      setPrefectures(PrefectureDatus)
-    })
-  },[])
-
+    return res.json() as Promise<PrefectureResponse>
+  }))
 
   return (
     <main>
-      {/* <HChart /> */}
-      <Suspense>
-        <Form PrefectureNames={Prefectures!.result.map((pref) => {return `${pref.prefName}`})} />
-      </Suspense>
+      <HChart />
+      {isLoading || data === undefined ? <p style={{textAlign: "center"}}>Form Loading...</p> : <Form PrefectureNames={data.result.map((pref) => {return `${pref.prefName}`})} />}
     </main>
   )
 }
