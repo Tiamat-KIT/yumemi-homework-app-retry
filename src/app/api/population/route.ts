@@ -22,7 +22,6 @@ async function POST(request: Request) {
         {
           method: "GET",
           headers: {
-            "Allow-Control-Allow-Origin": "*",
             "X-API-KEY": process.env.RESAS_API_KEY as string,
             "Content-Type": "application/json;charset=utf-8"
           }
