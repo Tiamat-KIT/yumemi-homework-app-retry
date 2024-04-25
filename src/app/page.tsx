@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import Form from "@/components/Form"
 /* import HChart from "@/components/HChart"*/
 import { PrefectureResponse } from "@/types/resas" 
@@ -27,7 +27,9 @@ export default function Home() {
   return (
     <main>
       {/* <HChart /> */}
-      <Form PrefectureNames={Prefectures!.result.map((pref) => {return `${pref.prefName}`})} />
+      <Suspense>
+        <Form PrefectureNames={Prefectures!.result.map((pref) => {return `${pref.prefName}`})} />
+      </Suspense>
     </main>
   )
 }
