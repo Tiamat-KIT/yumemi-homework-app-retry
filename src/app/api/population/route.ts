@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse } from "next"
+import { NextApiRequest } from "next"
 import { PopulationResponse } from "../../../types/resas"
 
-async function POST(request: NextApiRequest,response: NextApiResponse) {
+async function POST(request: NextApiRequest) {
   if (process.env.RESAS_API_KEY === "" || process.env.RESAS_API_KEY === undefined) {
     throw new Error("API_KEYが設定されていません")
   }
@@ -44,8 +44,7 @@ async function POST(request: NextApiRequest,response: NextApiResponse) {
       return (await res.json()) as Promise<PopulationResponse>
     })
   )
-  response.setHeader('Access-Control-Allow-Origin', '*')
-  return response.json(PrefPopulationData)
+  return NextResponse.json(PrefPopulationData)
 }
 
 export { POST }
