@@ -1,6 +1,6 @@
 import { PrefectureResponse } from "@/types/resas"
 
-export async function GET() {
+async function GET() {
   if (process.env.RESAS_API_KEY === "" || process.env.RESAS_API_KEY === undefined) {
     throw new Error("API_KEYが設定されていません")
   }
@@ -21,3 +21,5 @@ export async function GET() {
   const Prefectures = (await res.json()) as PrefectureResponse
   return Response.json(Prefectures)
 }
+
+export { GET}
