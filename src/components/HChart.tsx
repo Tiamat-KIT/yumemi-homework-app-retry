@@ -22,7 +22,9 @@ export default function HChart() {
       })
       .join(",")}`,
     url =>
-      fetch(url, { method: "POST", next: { revalidate: 3600 } }).then(res => {
+      fetch(url, { method: "POST", next: { revalidate: 3600 },headers: {
+        "Allow-Control-Allow-Origin": "*",
+      } }).then(res => {
         return res.json() as Promise<PopulationResponse[]>
       })
   )

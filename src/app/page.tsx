@@ -8,7 +8,9 @@ import { HomeURL } from "@/util/url"
 export default function Home() {
   const fetchUrl = `${HomeURL}/api/prefecture`
   const { data, isLoading } = useSWR(fetchUrl, url =>
-    fetch(url, { method: "GET", next: { revalidate: 3600 } }).then(res => {
+    fetch(url, { method: "GET", next: { revalidate: 3600 },headers: {
+      "Allow-Control-Allow-Origin": "*",
+    } }).then(res => {
       if (!res.ok) {
         throw new Error("Failed to fetch")
       }
