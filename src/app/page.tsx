@@ -11,9 +11,6 @@ export default function Home() {
     fetch(url, {
       method: "GET",
       next: { revalidate: 3600 },
-      headers: {
-        "Allow-Control-Allow-Origin": "*"
-      }
     }).then(res => {
       if (!res.ok) {
         throw new Error("Failed to fetch")

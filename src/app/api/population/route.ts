@@ -1,11 +1,12 @@
+import { NextApiRequest, NextApiResponse } from "next"
 import { PopulationResponse } from "../../../types/resas"
 
-async function POST(request: Request) {
+async function POST(request: NextApiRequest,response: NextApiResponse) {
   if (process.env.RESAS_API_KEY === "" || process.env.RESAS_API_KEY === undefined) {
     throw new Error("API_KEYが設定されていません")
   }
 
-  const { searchParams } = new URL(request.url)
+  const { searchParams } = new URL(request.url as string)
   const params = searchParams.get("prefcodes")
   if (params === null) {
     throw new Error("パラメータが不正です")
@@ -43,8 +44,8 @@ async function POST(request: Request) {
       return (await res.json()) as Promise<PopulationResponse>
     })
   )
-
-  return Response.json(PrefPopulationData)
+  response.setHeader('Access-Control-Allow-Origin', '*')
+  return response.json(PrefPopulationData)
 }
 
 export { POST }

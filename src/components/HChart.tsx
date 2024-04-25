@@ -25,9 +25,6 @@ export default function HChart() {
       fetch(url, {
         method: "POST",
         next: { revalidate: 3600 },
-        headers: {
-          "Allow-Control-Allow-Origin": "*"
-        }
       }).then(res => {
         return res.json() as Promise<PopulationResponse[]>
       })

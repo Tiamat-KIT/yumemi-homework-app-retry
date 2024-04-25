@@ -1,6 +1,7 @@
+import { NextApiRequest, NextApiResponse } from "next"
 import { PrefectureResponse } from "@/types/resas"
 
-async function GET() {
+async function GET(request: NextApiRequest,response: NextApiResponse) {
   if (process.env.RESAS_API_KEY === "" || process.env.RESAS_API_KEY === undefined) {
     throw new Error("API_KEYが設定されていません")
   }
@@ -19,7 +20,8 @@ async function GET() {
   }
 
   const Prefectures = (await res.json()) as PrefectureResponse
-  return Response.json(Prefectures)
+  response.setHeader('Access-Control-Allow-Origin', '*')
+  return response.json(Prefectures)
 }
 
 export { GET }
