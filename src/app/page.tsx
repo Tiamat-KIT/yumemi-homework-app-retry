@@ -1,6 +1,6 @@
-import Form from "@/components/Form"
+/* import Form from "@/components/Form"
 import HChart from "@/components/HChart"
-import { PrefectureResponse } from "@/types/resas"
+import { PrefectureResponse } from "@/types/resas" */
 import { HomeURL } from "@/util/url"
 
 export default async function Home() {
@@ -10,15 +10,16 @@ export default async function Home() {
     `${HomeURL}/api/prefecture`,
     { method: "GET", next: { revalidate: 3600 } }
   )
-  const PrefectureDatus = (await PrefecturesResponseObject.json()) as PrefectureResponse
-  const prefs = PrefectureDatus.result
+  const PrefectureDatus = (await PrefecturesResponseObject.json()) /* as PrefectureResponse */
+  console.log(PrefectureDatus)
+  /* const prefs = PrefectureDatus.result
 
-  const PrefectureNames = prefs.map(pref => pref.prefName)
+  const PrefectureNames = prefs.map(pref => pref.prefName) */
   console.log("rendering")
   return (
     <main>
-      <HChart />
-      <Form PrefectureNames={PrefectureNames} />
+      {/* <HChart />
+      <Form PrefectureNames={PrefectureNames} /> */}
     </main>
   )
 }

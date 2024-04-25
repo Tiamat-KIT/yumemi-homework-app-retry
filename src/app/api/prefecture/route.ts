@@ -19,7 +19,7 @@ async function GET() {
   }
 
   const Prefectures = (await res.json()) as PrefectureResponse
-  return Response.json(Prefectures)
+  return Response.json({Prefectures})
 }
 
 export { GET}
