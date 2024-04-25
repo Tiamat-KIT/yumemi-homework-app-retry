@@ -6,7 +6,7 @@ import { AtomPrefectures } from "@/globalstate/prefcodes"
 import style from "@/styles/form.module.css"
 import { Prefecture } from "@/types/resas"
 
-export default function Form({ PrefectureNames = [] }: { PrefectureNames: Array<string>  }) {
+export default function Form({ PrefectureNames = [] }: { PrefectureNames: Array<string> }) {
   /**
    * 人口の分類の種類をStateで管理する予定
    */
@@ -45,8 +45,12 @@ export default function Form({ PrefectureNames = [] }: { PrefectureNames: Array<
   function CheckBox<T extends FieldValues>({ register, path, label }: CheckBoxProps<T>) {
     const LabelRef = useRef<HTMLLabelElement>(null)
     useEffect(() => {
-      const LabelBackgroundColor = watch(`SelectPrefectures.${label}`) ? "linear-gradient(160deg, rgba(255,0,0,1) 0%, rgba(231,147,147,1) 50%, rgba(107,0,0,1) 100%, rgba(196,196,196,1) 100%)" : "linear-gradient(160deg, rgba(94,94,94,1) 0%, rgba(255,255,255,1) 50%, rgba(101,101,101,1) 100%, rgba(196,196,196,1) 100%)"
-      const LabelShadowColor = watch(`SelectPrefectures.${label}`) ? "0 0 0 2px rgba(0, 0, 0, 0.5)" : "0 0 0 2px rgba(255, 255, 255, 0)"
+      const LabelBackgroundColor = watch(`SelectPrefectures.${label}`)
+        ? "linear-gradient(160deg, rgba(255,0,0,1) 0%, rgba(231,147,147,1) 50%, rgba(107,0,0,1) 100%, rgba(196,196,196,1) 100%)"
+        : "linear-gradient(160deg, rgba(94,94,94,1) 0%, rgba(255,255,255,1) 50%, rgba(101,101,101,1) 100%, rgba(196,196,196,1) 100%)"
+      const LabelShadowColor = watch(`SelectPrefectures.${label}`)
+        ? "0 0 0 2px rgba(0, 0, 0, 0.5)"
+        : "0 0 0 2px rgba(255, 255, 255, 0)"
       if (LabelRef.current === null) {
         throw new Error("label要素のRefが正常に処理されていません")
       }
@@ -89,7 +93,9 @@ export default function Form({ PrefectureNames = [] }: { PrefectureNames: Array<
         <option value="生産年齢人口">生産年齢人口</option>
         <option value="老年人口">老年人口</option>
       </select>
-      <button type="submit" className={style.button}>Submit</button>
+      <button type="submit" className={style.button}>
+        Submit
+      </button>
     </form>
   )
 }

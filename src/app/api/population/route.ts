@@ -47,4 +47,4 @@ async function POST(request: Request) {
   return Response.json(PrefPopulationData)
 }
 
-export {POST}
+export { POST }

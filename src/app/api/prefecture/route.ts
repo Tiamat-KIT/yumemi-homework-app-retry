@@ -22,4 +22,4 @@ async function GET() {
   return Response.json(Prefectures)
 }
 
-export { GET}
+export { GET }

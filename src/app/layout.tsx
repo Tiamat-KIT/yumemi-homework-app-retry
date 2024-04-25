@@ -23,9 +23,7 @@ export default function RootLayout({
       >
         <JotaiProvider>
           <Navbar />
-          <Suspense fallback={<p>Loading…</p>}>
-          {children}
-          </Suspense>
+          <Suspense fallback={<p>Loading…</p>}>{children}</Suspense>
           <Footer />
         </JotaiProvider>
       </body>
