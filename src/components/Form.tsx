@@ -3,8 +3,9 @@ import { useEffect, useRef } from "react"
 import { useAtom } from "jotai"
 import { Path, useForm, UseFormRegister, FieldValues, SubmitHandler } from "react-hook-form"
 import { AtomPrefectures } from "@/globalstate/prefcodes"
+import { AtomJanr } from "@/globalstate/selectjanr"
 import style from "@/styles/form.module.css"
-import { Prefecture } from "@/types/resas"
+import { PopulationJanrUnion, Prefecture } from "@/types/resas"
 
 export default function Form({ PrefectureNames = [] }: { PrefectureNames: Array<string> }) {
   /**
@@ -14,6 +15,8 @@ export default function Form({ PrefectureNames = [] }: { PrefectureNames: Array<
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setPrefState] = useAtom(AtomPrefectures)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [__, setJanrState] = useAtom(AtomJanr)
   interface PrefectureSelectState {
     SelectPrefectures: {
       [key in (typeof ConstPrefectureNames)[number]]: boolean
@@ -76,6 +79,7 @@ export default function Form({ PrefectureNames = [] }: { PrefectureNames: Array<
         })
       }
     }
+    setJanrState((document.getElementById("select") as HTMLSelectElement).value as PopulationJanrUnion)
     setPrefState(PrefSubmitList)
   }
 
@@ -87,7 +91,7 @@ export default function Form({ PrefectureNames = [] }: { PrefectureNames: Array<
         })}
       </div>
       {/** "総人口" | "年少人口" | "生産年齢人口" | "老年人口"を選択できるSelect要素を出す */}
-      <select>
+      <select id="select">
         <option value="総人口">総人口</option>
         <option value="年少人口">年少人口</option>
         <option value="生産年齢人口">生産年齢人口</option>

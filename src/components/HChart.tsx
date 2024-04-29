@@ -6,6 +6,7 @@ import { useAtom } from "jotai"
 /* import useSWR from "swr" */
 import useSWR from "swr"
 import { AtomPrefectures } from "@/globalstate/prefcodes"
+import { AtomJanr } from "@/globalstate/selectjanr"
 import { PopulationResponse } from "@/types/resas"
 
 export default function HChart() {
@@ -13,6 +14,8 @@ export default function HChart() {
   /* const [chartState, setChartState] = useState<PrefPopulationData[]>() */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [prefState, _] = useAtom(AtomPrefectures)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [selected,__] = useAtom(AtomJanr)
 
   const { data, isLoading } = useSWR(
     `/api/population?prefcodes=${prefState
@@ -41,7 +44,7 @@ export default function HChart() {
     const chartState = prefState.map((pref, idx) => {
       return {
         PrefName: pref.prefName,
-        PopulationValues: data![idx].result.data.map(Populate => {
+        PopulationValues: data![idx].result.data.filter(Populate => Populate.label === selected).map((Populate) => {
           return {
             label: Populate.label,
             data: Populate.data.map(Popu => {
@@ -64,7 +67,7 @@ export default function HChart() {
         text: "Source: RESAS API"
       },
       title: {
-        text: "人口構成"
+        text: `人口構成 ${data?.length}県の${selected}`
       },
       xAxis: {
         title: {
@@ -97,7 +100,7 @@ export default function HChart() {
       }) as any[]
     }
     return <HighchartsReact highcharts={Highcharts} options={ChartOptions} ref={chartRef} />
-  }, [data])
+  }, [data,selected])
 
   return <MemoChart />
 }
