@@ -3,11 +3,9 @@ import useSWR from "swr"
 import Form from "@/components/Form"
 import HChart from "@/components/HChart"
 import { PrefectureResponse } from "@/types/resas"
-import { HomeURL } from "@/util/url"
 
 export default function Home() {
-  const fetchUrl = `${HomeURL}/api/prefecture`
-  const { data, isLoading } = useSWR(fetchUrl, url =>
+  const { data, isLoading } = useSWR(`/api/prefecture`, url =>
     fetch(url, {
       method: "GET",
       next: { revalidate: 3600 },

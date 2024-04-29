@@ -7,7 +7,6 @@ import { useAtom } from "jotai"
 import useSWR from "swr"
 import { AtomPrefectures } from "@/globalstate/prefcodes"
 import { PopulationResponse } from "@/types/resas"
-import { HomeURL } from "@/util/url"
 
 export default function HChart() {
   const chartRef = useRef<HighchartsReact.RefObject>(null)
@@ -16,7 +15,7 @@ export default function HChart() {
   const [prefState, _] = useAtom(AtomPrefectures)
 
   const { data, isLoading } = useSWR(
-    `${HomeURL}/api/population?prefcodes=${prefState
+    `/api/population?prefcodes=${prefState
       .map(pref => {
         return pref.prefCode
       })
