@@ -25,7 +25,8 @@ async function POST(request: NextRequest) {
           headers: {
             "X-API-KEY": process.env.RESAS_API_KEY as string,
             "Content-Type": "application/json;charset=utf-8"
-          }
+          },
+          cache: "no-cache"
         }
       )
     })
